@@ -1,7 +1,7 @@
-"""enterprise_manage URL Configuration
+"""mcenter_backstage URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/2.1/topics/http/urls/
+    https://docs.djangoproject.com/en/2.0/topics/http/urls/
 Examples:
 Function views
     1. Add an import:  from my_app import views
@@ -13,20 +13,24 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-import xadmin
-from django.urls import path, include
+
+from django.urls import path
+from django.conf.urls import include
+from django.conf.urls.static import static
+from django.conf import settings
 
 from rest_framework.routers import DefaultRouter
-from rest_framework_jwt.views import ObtainJSONWebToken
 
-from enterprise_manage.apps.user_center import urls as user_center_urls
-
+from enterprise_manage.apps.user_center.views import *
 
 router = DefaultRouter()
 
+
+router.register(r'my-info', MyInfoViewSet, basename="my-info")
+
+
 urlpatterns = [
-    path('xadmin/', xadmin.site.urls),
-    path('login/', ObtainJSONWebToken.as_view()),
     path(r'', include(router.urls)),
-    path(r'user/', include(user_center_urls)),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

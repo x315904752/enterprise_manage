@@ -1,9 +1,11 @@
 .idea
+*.ini
+enterprise_manage/apps/*/migrations/0*.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
-*.ini
 # C extensions
 *.so
 
