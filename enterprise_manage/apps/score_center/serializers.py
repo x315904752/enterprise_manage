@@ -9,3 +9,10 @@ class ScoreResultSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
         fields = ['name', 'user_photo']
+
+
+class ScoreProjectSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ScoreProject
+        fields = ['id', 'name']

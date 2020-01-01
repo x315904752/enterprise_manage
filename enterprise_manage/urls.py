@@ -20,13 +20,15 @@ from rest_framework.routers import DefaultRouter
 from rest_framework_jwt.views import ObtainJSONWebToken
 
 from enterprise_manage.apps.user_center import urls as user_center_urls
+from enterprise_manage.apps.score_center import urls as score_center_urls
 
 
 router = DefaultRouter()
 
 urlpatterns = [
     path('xadmin/', xadmin.site.urls),
-    path('login/', ObtainJSONWebToken.as_view()),
+    path('user-login/', ObtainJSONWebToken.as_view()),
     path(r'', include(router.urls)),
     path(r'user/', include(user_center_urls)),
+    path(r'score/', include(score_center_urls))
 ]
