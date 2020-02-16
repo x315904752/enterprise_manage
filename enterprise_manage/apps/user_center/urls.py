@@ -26,8 +26,8 @@ from enterprise_manage.apps.user_center.views import *
 router = DefaultRouter()
 
 
-router.register(r'my-info', MyInfoViewSet, basename="my-info")
-router.register(r'change-password', ChangePasswordViewSet, basename="change-password")
+router.register(r'my-info', MyInfoViewSet, base_name="my-info")
+router.register(r'change-password', ChangePasswordViewSet, base_name="change-password")
 
 
 urlpatterns = [

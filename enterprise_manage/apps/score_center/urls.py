@@ -26,17 +26,17 @@ from enterprise_manage.apps.score_center.views import *
 router = DefaultRouter()
 
 
-router.register(r'score-people', ScorePeopleViewSet, basename="score-people")
-router.register(r'list-score', ListScoreViewSet, basename="list-score")
-router.register(r'score-project', ScoreProjectViewSet, basename="score-project")
-router.register(r'score', ScoreViewSet, basename="score")
-router.register(r'result-order', ResultOrderViewSet, basename="result-order")
-router.register(r'project-1', Project_1, basename="project-1")
-router.register(r'project-2', Project_2, basename="project-2")
-router.register(r'project-3', Project_3, basename="project-3")
-router.register(r'project-4', Project_4, basename="project-4")
-router.register(r'project-5', Project_5, basename="project-5")
-router.register(r'project-6', Project_6, basename="project-6")
+router.register(r'score-people', ScorePeopleViewSet, base_name="score-people")
+router.register(r'list-score', ListScoreViewSet, base_name="list-score")
+router.register(r'score-project', ScoreProjectViewSet, base_name="score-project")
+router.register(r'score', ScoreViewSet, base_name="score")
+router.register(r'result-order', ResultOrderViewSet, base_name="result-order")
+router.register(r'project-1', Project_1, base_name="project-1")
+router.register(r'project-2', Project_2, base_name="project-2")
+router.register(r'project-3', Project_3, base_name="project-3")
+router.register(r'project-4', Project_4, base_name="project-4")
+router.register(r'project-5', Project_5, base_name="project-5")
+router.register(r'project-6', Project_6, base_name="project-6")
 
 
 
