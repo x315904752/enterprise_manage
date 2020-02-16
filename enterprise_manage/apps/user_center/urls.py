@@ -27,6 +27,7 @@ router = DefaultRouter()
 
 
 router.register(r'my-info', MyInfoViewSet, basename="my-info")
+router.register(r'change-password', ChangePasswordViewSet, basename="change-password")
 
 
 urlpatterns = [

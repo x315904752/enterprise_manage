@@ -13,7 +13,7 @@ ZBKJ_LIST = ['顾福曦', '张敏', '马骁坤', '李萌', '蒋双月', '杜岳'
 
 FGSCN_LIST = [
     '王卓', '张丹', '宋娇', '徐丽晨', '何斌红', '邱梓杭', '张小翠', '李丽容', '孙继红', '王薇', '许珂', '邵颖华', '刘羽',
-    '袁家惠', '汪子涵', '赵彦卜', '任学锋', '武淑娟', '陈芸贇', '傅丽莹', '王颖', '童玲', '李苹', '王海琴', '成玉维',
+    '袁家惠', '汪子涵', '赵彦卜', '任学锋', '武淑娟', '陈芸贇', '傅丽莹', '王颖', '童玲', '李苹', '王海芹', '成玉维',
     '陆雅玲', '陈雪梅', '杨韩', '隋秀月', '曾云'
 ]
 DQKJ_LIST = ['高咏梅', '李燕欢', '王春霞', '张运开', '李媛媛', '吕海英']
@@ -22,8 +22,8 @@ caiwu_fz = {}
 dqkj_fz = {}
 with open('caiwu_fz.txt', 'r', encoding='UTF8') as f:
     for c in f.readlines():
-        caiwu_fz[c.split('-')[0]] = {'dqhz': c.split('-')[1], 'dqzz': c.split('-')[2].strip('\n')}
-        dqkj_fz.setdefault(c.split('-')[1], []).append(c.split('-')[0])
+        caiwu_fz[c.split()[0]] = {'dqhz': c.split()[1], 'dqzz': c.split()[2].strip('\n')}
+        dqkj_fz.setdefault(c.split()[1], []).append(c.split()[0])
 
 
 class ScorePeopleViewSet(viewsets.ViewSet):
@@ -201,24 +201,16 @@ class Project_1(viewsets.ViewSet):
     def list(self, request):
         data = []
         for i in ScoreUserProfile.objects.filter(to_score_project_id__exact=1):
-            # 王萍分值
-            no_score_people_list = []
-
+            # 萍总分值
             pz = 0
             pz_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=48)
             for j in pz_score:
                 pz += (j.score_result * j.to_score_option.score_min /100)
-            if not len(pz_score):
-                no_score_people_list.append('王萍')
-
-            # 康莉
+            # 康丽
             kl = 0
             kl_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=49)
             for k in kl_score:
                 kl += (k.score_result * k.to_score_option.score_min / 100)
-
-            if not len(kl_score):
-                no_score_people_list.append('康莉')
 
             # 隋欣
             sx = 0
@@ -226,23 +218,18 @@ class Project_1(viewsets.ViewSet):
             for l in sx_score:
                 sx += (l.score_result * l.to_score_option.score_min / 100)
 
-            if not len(sx_score):
-                no_score_people_list.append('隋欣')
-
             # 郝红丽
             hhl = 0
             hhl_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=50)
             for m in hhl_score:
                 hhl += (m.score_result * m.to_score_option.score_min / 100)
-            if not len(hhl_score):
-                no_score_people_list.append('郝红丽')
+
             # 隋晓海
             sxh = 0
             sxh_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=52)
             for k in sxh_score:
                 sxh += (k.score_result * k.to_score_option.score_min / 100)
-            if not len(sxh_score):
-                no_score_people_list.append('隋晓海')
+
             pz_result, kl_result, sx_result, hhl_result, sxh_result = 0, 0, 0, 0, 0
 
             if len(pz_score):
@@ -258,13 +245,12 @@ class Project_1(viewsets.ViewSet):
             all_score = float(pz_result) + float(kl_result) + float(sx_result) + float(hhl_result) + float(sxh_result)
             data.append({
                 "被评分人": i.to_user_profile.name,
-                "王萍": round(float(pz_result), 2),
-                "康莉": round(float(kl_result), 2),
+                "萍总": round(float(pz_result), 2),
+                "康丽": round(float(kl_result), 2),
                 "隋欣": round(float(sx_result), 2),
                 "郝宏丽": round(float(hhl_result), 2),
                 "隋晓海": round(float(sxh_result), 2),
-                "总分": round(float(all_score), 2),
-                "未打分人员清单": no_score_people_list
+                "总分": round(float(all_score), 2)
             })
         return Response(data)
 
@@ -272,30 +258,24 @@ class Project_1(viewsets.ViewSet):
 class Project_2(viewsets.ViewSet):
     def list(self, request):
         data = []
-
         for i in ScoreUserProfile.objects.filter(to_score_project_id__exact=2):
-            # 王萍分值
-            no_score_people_list = []
+            # 萍总分值
             pz = 0
             pz_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=48)
             for j in pz_score:
                 pz += (j.score_result * j.to_score_option.score_min /100)
-            if not len(pz_score):
-                no_score_people_list.append('王萍')
-            # 康莉
+            # 康丽
             kl = 0
             kl_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=49)
             for k in kl_score:
                 kl += (k.score_result * k.to_score_option.score_min / 100)
-            if not len(kl_score):
-                no_score_people_list.append('康莉')
+
             # 郝红丽
             hhl = 0
             hhl_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=50)
             for m in hhl_score:
                 hhl += (m.score_result * m.to_score_option.score_min / 100)
-            if not len(hhl_score):
-                no_score_people_list.append('郝红丽')
+
             # 总部出纳
             zbcn = 0
             zbcn_num = 0
@@ -303,8 +283,6 @@ class Project_2(viewsets.ViewSet):
                 z = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user__name__exact=zbcn_people)
                 if z:
                     zbcn_num += 1
-                else:
-                    no_score_people_list.append(zbcn_people)
                 for k in z:
                     zbcn += (k.score_result * k.to_score_option.score_min / 100)
 
@@ -315,8 +293,6 @@ class Project_2(viewsets.ViewSet):
                 z = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user__name__exact=zbkj_people)
                 if z:
                     zbkj_num += 1
-                else:
-                    no_score_people_list.append(zbkj_people)
                 for l in z:
                     zbkj += (l.score_result * l.to_score_option.score_min / 100)
 
@@ -335,13 +311,12 @@ class Project_2(viewsets.ViewSet):
             all_score = float(pz_result) + float(kl_result) + float(hhl_result) + float(zbcn_result) + float(zbkj_result)
             data.append({
                 "被评分人": i.to_user_profile.name,
-                "王萍": round(float(pz_result), 2),
-                "康莉": round(float(kl_result), 2),
+                "萍总": round(float(pz_result), 2),
+                "康丽": round(float(kl_result), 2),
                 "郝宏丽": round(float(hhl_result), 2),
                 "总部出纳": round(float(zbcn_result), 2),
                 "总部会计": round(float(zbkj_result), 2),
-                "总分": round(float(all_score), 2),
-                "未打分人员清单": no_score_people_list
+                "总分": round(float(all_score), 2)
             })
         return Response(data)
 
@@ -352,29 +327,23 @@ class Project_3(viewsets.ViewSet):
 
         data = []
         for i in ScoreUserProfile.objects.filter(to_score_project_id__exact=3):
-            # 王萍分值
-            no_score_people_list = []
-
+            # 萍总分值
             pz = 0
             pz_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=48)
             for j in pz_score:
                 pz += (j.score_result * j.to_score_option.score_min / 100)
-            if not len(pz_score):
-                no_score_people_list.append('王萍')
-            # 康莉
+            # 康丽
             kl = 0
             kl_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=49)
             for k in kl_score:
                 kl += (k.score_result * k.to_score_option.score_min / 100)
-            if not len(kl_score):
-                no_score_people_list.append('康莉')
+
             # 郝红丽
             hhl = 0
             hhl_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=50)
             for m in hhl_score:
                 hhl += (m.score_result * m.to_score_option.score_min / 100)
-            if not len(hhl_score):
-                no_score_people_list.append('郝红丽')
+
             # 分公司出纳
             fgscn = 0
             fgscn_num = 0
@@ -382,34 +351,30 @@ class Project_3(viewsets.ViewSet):
                 z = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user__name__exact=fgscn_people)
                 if z:
                     fgscn_num += 1
-                else:
-                    no_score_people_list.append(fgscn_people)
                 for k in z:
                     fgscn += (k.score_result * k.to_score_option.score_min / 100)
 
             # 大区会计
             dqhz = 0
             dqhz_num = 0
-            z = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user__name__exact=caiwu_fz[i.to_user_profile.name]['dqhz'])
-            if z:
-                dqhz_num += 1
-            else:
-                no_score_people_list.append(caiwu_fz[i.to_user_profile.name]['dqhz'])
-            for l in z:
-                dqhz += (l.score_result * l.to_score_option.score_min / 100)
 
+            for dqhz_people in caiwu_fz[i.to_user_profile.name]['dqhz']:
+                z = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user__name__exact=dqhz_people)
+                if z:
+                    dqhz_num += 1
+                for l in z:
+                    dqhz += (l.score_result * l.to_score_option.score_min / 100)
 
             # 大区组长
             dqzz = 0
             dqzz_num = 0
 
-            z = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user__name__exact=caiwu_fz[i.to_user_profile.name]['dqzz'])
-            if z:
-                dqzz_num += 1
-            else:
-                no_score_people_list.append(caiwu_fz[i.to_user_profile.name]['dqzz'])
-            for m in z:
-                dqzz += (m.score_result * m.to_score_option.score_min / 100)
+            for dqzz_people in caiwu_fz[i.to_user_profile.name]['dqzz']:
+                z = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user__name__exact=dqzz_people)
+                if z:
+                    dqzz_num += 1
+                for m in z:
+                    dqzz += (m.score_result * m.to_score_option.score_min / 100)
 
             pz_result, kl_result, hhl_result, fgscn_result, dqhz_result, dqzz_result = 0, 0, 0, 0, 0, 0
 
@@ -429,14 +394,13 @@ class Project_3(viewsets.ViewSet):
             all_score = float(pz_result) + float(kl_result) + float(hhl_result) + float(fgscn_result) + float(dqhz_result) + float(dqzz_result)
             data.append({
                 "被评分人": i.to_user_profile.name,
-                "王萍": round(float(pz_result), 2),
-                "康莉": round(float(kl_result), 2),
+                "萍总": round(float(pz_result), 2),
+                "康丽": round(float(kl_result), 2),
                 "郝宏丽": round(float(hhl_result), 2),
                 "分公司出纳": round(float(fgscn_result), 2),
                 "大区会计": round(float(dqhz_result), 2),
                 "大区组长": round(float(dqzz_result), 2),
-                "总分": round(float(all_score), 2),
-                "未打分人员清单": no_score_people_list
+                "总分": round(float(all_score), 2)
             })
         return Response(data)
 
@@ -444,31 +408,25 @@ class Project_3(viewsets.ViewSet):
 class Project_4(viewsets.ViewSet):
     def list(self, request):
         data = []
-
         for i in ScoreUserProfile.objects.filter(to_score_project_id__exact=4):
-            # 王萍分值
-            no_score_people_list = []
-
+            # 萍总分值
             pz = 0
             pz_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=48)
             for j in pz_score:
                 pz += (j.score_result * j.to_score_option.score_min / 100)
-            if not len(pz_score):
-                no_score_people_list.append('王萍')
+
             # 隋欣
             sx = 0
             sx_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=51)
             for l in sx_score:
                 sx += (l.score_result * l.to_score_option.score_min / 100)
-            if not len(sx_score):
-                no_score_people_list.append('隋欣')
+
             # 隋晓海
             sxh = 0
             sxh_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=52)
             for k in sxh_score:
                 sxh += (k.score_result * k.to_score_option.score_min / 100)
-            if not len(sxh_score):
-                no_score_people_list.append('隋晓海')
+
             # 总部会计 + 大区会计
             zbkjdqkj = 0
             zbkjdqkj_num = 0
@@ -476,8 +434,6 @@ class Project_4(viewsets.ViewSet):
                 z = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user__name__exact=zbkjdqkj_people)
                 if z:
                     zbkjdqkj_num += 1
-                else:
-                    no_score_people_list.append(zbkjdqkj_people)
                 for k in z:
                     zbkjdqkj += (k.score_result * k.to_score_option.score_min / 100)
 
@@ -488,8 +444,6 @@ class Project_4(viewsets.ViewSet):
                 z = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user__name__exact=zbcn_people)
                 if z:
                     zbcn_num += 1
-                else:
-                    no_score_people_list.append(zbcn_people)
                 for k in z:
                     zbcn += (k.score_result * k.to_score_option.score_min / 100)
 
@@ -508,13 +462,12 @@ class Project_4(viewsets.ViewSet):
             all_score = float(pz_result) + float(sx_result) + float(sxh_result) + float(zbkjdqkj_result) + float(zbcn_result)
             data.append({
                 "被评分人": i.to_user_profile.name,
-                "王萍": round(float(pz_result), 2),
+                "萍总": round(float(pz_result), 2),
                 "隋欣": round(float(sx_result), 2),
                 "隋晓海": round(float(sxh_result), 2),
                 "总部会计+大区会计": round(float(zbkjdqkj_result), 2),
                 "总部出纳": round(float(zbcn_result), 2),
-                "总分": round(float(all_score), 2),
-                "未打分人员清单": no_score_people_list
+                "总分": round(float(all_score), 2)
             })
         return Response(data)
 
@@ -522,24 +475,19 @@ class Project_4(viewsets.ViewSet):
 class Project_5(viewsets.ViewSet):
     def list(self, request):
         data = []
-
         for i in ScoreUserProfile.objects.filter(to_score_project_id__exact=5):
-            # 王萍分值
-            no_score_people_list = []
-
+            # 萍总分值
             pz = 0
             pz_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=48)
             for j in pz_score:
                 pz += (j.score_result * j.to_score_option.score_min / 100)
-            if not len(pz_score):
-                no_score_people_list.append('王萍')
+
             # 隋晓海
             sxh = 0
             sxh_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=52)
             for k in sxh_score:
                 sxh += (k.score_result * k.to_score_option.score_min / 100)
-            if not len(sxh_score):
-                no_score_people_list.append('隋晓海')
+
 
             # 总部会计
             zbkj = 0
@@ -548,8 +496,6 @@ class Project_5(viewsets.ViewSet):
                 z = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user__name__exact=zbkj_people)
                 if z:
                     zbkj_num += 1
-                else:
-                    no_score_people_list.append(zbkj_people)
                 for l in z:
                     zbkj += (l.score_result * l.to_score_option.score_min / 100)
 
@@ -564,11 +510,10 @@ class Project_5(viewsets.ViewSet):
             all_score = float(pz_result) + float(sxh_result) + float(zbkj_result)
             data.append({
                 "被评分人": i.to_user_profile.name,
-                "王萍": round(float(pz_result), 2),
+                "萍总": round(float(pz_result), 2),
                 "隋晓海": round(float(sxh_result), 2),
                 "总部会计": round(float(zbkj_result), 2),
-                "总分": round(float(all_score), 2),
-                "未打分人员清单": no_score_people_list
+                "总分": round(float(all_score), 2)
             })
         return Response(data)
 
@@ -577,30 +522,25 @@ class Project_5(viewsets.ViewSet):
 class Project_6(viewsets.ViewSet):
     def list(self, request):
         data = []
-
         for i in ScoreUserProfile.objects.filter(to_score_project_id__exact=6):
-            # 王萍分值
-            no_score_people_list = []
+            # 萍总分值
             pz = 0
             pz_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=48)
             for j in pz_score:
                 pz += (j.score_result * j.to_score_option.score_min / 100)
-            if not len(pz_score):
-                no_score_people_list.append('王萍')
+
             # 隋欣
             sx = 0
             sx_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=51)
             for l in sx_score:
                 sx += (l.score_result * l.to_score_option.score_min / 100)
-            if not len(sx_score):
-                no_score_people_list.append('隋欣')
+
             # 隋晓海
             sxh = 0
             sxh_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=52)
             for k in sxh_score:
                 sxh += (k.score_result * k.to_score_option.score_min / 100)
-            if not len(sxh_score):
-                no_score_people_list.append('隋晓海')
+
 
             # 总部会计 + 大区会计
             zbkjdqkj = 0
@@ -609,8 +549,6 @@ class Project_6(viewsets.ViewSet):
                 z = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user__name__exact=zbkjdqkj_people)
                 if z:
                     zbkjdqkj_num += 1
-                else:
-                    no_score_people_list.append(zbkjdqkj_people)
                 for k in z:
                     zbkjdqkj += (k.score_result * k.to_score_option.score_min / 100)
 
@@ -622,8 +560,6 @@ class Project_6(viewsets.ViewSet):
                 z = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user__name__exact=sffgscn_people)
                 if z:
                     sffgscn_num += 1
-                else:
-                    no_score_people_list.append(sffgscn_people)
                 for m in z:
                     sffgscn += (m.score_result * m.to_score_option.score_min / 100)
 
@@ -643,12 +579,11 @@ class Project_6(viewsets.ViewSet):
             all_score = float(pz_result) + float(sx_result) + float(sxh_result) + float(zbkjdqkj_result) + float(sffgscn_result)
             data.append({
                 "被评分人": i.to_user_profile.name,
-                "王萍": round(float(pz_result), 2),
+                "萍总": round(float(pz_result), 2),
                 "隋欣": round(float(sx_result), 2),
                 "隋晓海": round(float(sxh_result), 2),
                 "总部会计+大区会计": round(float(zbkjdqkj_result), 2),
                 "负责省份的分公司出纳": round(float(sffgscn_result), 2),
-                "总分": round(float(all_score), 2),
-                "未打分人员清单": sffgscn_people
+                "总分": round(float(all_score), 2)
             })
         return Response(data)

@@ -8,6 +8,7 @@ class UserProfile(models.Model):
         verbose_name='用户名',
         on_delete=models.CASCADE,
     )
+    leader = models.CharField(verbose_name='领导', max_length=30, blank=True, default='')
     name = models.CharField(verbose_name='姓名', max_length=30)
     mobile_phone = models.CharField(verbose_name='手机', max_length=30, blank=True, null=True)
     email = models.EmailField(verbose_name='邮箱', blank=True, null=True)
@@ -20,6 +21,7 @@ class UserProfile(models.Model):
         default='user-photo/user_photo_demo.jpg'
     )
     is_delete = models.BooleanField(verbose_name='是否删除', default=False)
+    is_first = models.BooleanField(verbose_name='是否第一次登陆', default=True)
 
     class Meta:
         verbose_name = "用户属性"

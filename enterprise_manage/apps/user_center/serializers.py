@@ -8,4 +8,4 @@ class MyInfoRetrieveSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserProfile
-        fields = ['name', 'user_photo']
+        fields = ['name', 'user_photo', 'is_first']
