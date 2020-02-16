@@ -9,4 +9,4 @@ pip3 install -r /opt/enterprise_manage/requirements.txt
 python /opt/enterprise_manage/manage.py makemigrations
 python /opt/enterprise_manage/manage.py migrate
 uwsgi --ini /www/enterprise_manage/uwsgi.ini
-tail -f /var/log/business_monitor/uwsgi.log
+tail -f /var/log/enterprise_manage/uwsgi.log
