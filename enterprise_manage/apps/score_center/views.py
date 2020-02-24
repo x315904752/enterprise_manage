@@ -17,7 +17,7 @@ FGSCN_LIST = [
     '陆雅玲', '陈雪梅', '杨韩', '隋秀月', '曾云'
 ]
 DQKJ_LIST = ['高咏梅', '李燕欢', '王春霞', '张运开', '李媛媛', '吕海英']
-
+FXYW_LIST = ['张彦', '路瑶', '许敏', '陈慧']
 caiwu_fz = {}
 dqkj_fz = {}
 caiwu_fz_txt = '''宋皎-高咏梅-王卓
@@ -513,7 +513,7 @@ class Project_4(viewsets.ViewSet):
             # 总部出纳
             zbcn = 0
             zbcn_num = 0
-            for zbcn_people in ZBCN_LIST:
+            for zbcn_people in (ZBCN_LIST + FXYW_LIST):
                 z = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user__name__exact=zbcn_people)
                 if z:
                     zbcn_num += 1
@@ -541,7 +541,7 @@ class Project_4(viewsets.ViewSet):
                 "隋欣": round(float(sx_result), 2),
                 "隋晓海": round(float(sxh_result), 2),
                 "总部会计+大区会计": round(float(zbkjdqkj_result), 2),
-                "总部出纳": round(float(zbcn_result), 2),
+                "总部出纳+分销业务财务团队": round(float(zbcn_result), 2),
                 "总分": round(float(all_score), 2),
                 "未打分人员清单": no_score_people_list
             })
@@ -573,7 +573,7 @@ class Project_5(viewsets.ViewSet):
             # 总部会计
             zbkj = 0
             zbkj_num = 0
-            for zbkj_people in ZBKJ_LIST:
+            for zbkj_people in (ZBKJ_LIST + FXYW_LIST):
                 z = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user__name__exact=zbkj_people)
                 if z:
                     zbkj_num += 1
@@ -595,7 +595,7 @@ class Project_5(viewsets.ViewSet):
                 "被评分人": i.to_user_profile.name,
                 "王萍": round(float(pz_result), 2),
                 "隋晓海": round(float(sxh_result), 2),
-                "总部会计": round(float(zbkj_result), 2),
+                "总部会计+分销业务财务团队": round(float(zbkj_result), 2),
                 "总分": round(float(all_score), 2),
                 "未打分人员清单": no_score_people_list
             })
