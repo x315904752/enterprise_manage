@@ -228,457 +228,478 @@ class ResultOrderViewSet(viewsets.ViewSet):
 
 class Project_1(viewsets.ViewSet):
     def list(self, request):
-        data = []
-        for i in ScoreUserProfile.objects.filter(to_score_project_id__exact=1):
-            # 王萍分值
-            no_score_people_list = []
+        auth_key = self.request.query_params.get('auth_key', None)
+        if auth_key == '5b951142-0614-4276-8917-917e21c27373':
+            data = []
+            for i in ScoreUserProfile.objects.filter(to_score_project_id__exact=1):
+                # 王萍分值
+                no_score_people_list = []
 
-            pz = 0
-            pz_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=48)
-            for j in pz_score:
-                pz += (j.score_result * j.to_score_option.score_min /100)
-            if not len(pz_score):
-                no_score_people_list.append('王萍')
+                pz = 0
+                pz_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=48)
+                for j in pz_score:
+                    pz += (j.score_result * j.to_score_option.score_min /100)
+                if not len(pz_score):
+                    no_score_people_list.append('王萍')
 
-            # 康莉
-            kl = 0
-            kl_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=49)
-            for k in kl_score:
-                kl += (k.score_result * k.to_score_option.score_min / 100)
+                # 康莉
+                kl = 0
+                kl_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=49)
+                for k in kl_score:
+                    kl += (k.score_result * k.to_score_option.score_min / 100)
 
-            if not len(kl_score):
-                no_score_people_list.append('康莉')
+                if not len(kl_score):
+                    no_score_people_list.append('康莉')
 
-            # 隋欣
-            sx = 0
-            sx_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=51)
-            for l in sx_score:
-                sx += (l.score_result * l.to_score_option.score_min / 100)
+                # 隋欣
+                sx = 0
+                sx_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=51)
+                for l in sx_score:
+                    sx += (l.score_result * l.to_score_option.score_min / 100)
 
-            if not len(sx_score):
-                no_score_people_list.append('隋欣')
+                if not len(sx_score):
+                    no_score_people_list.append('隋欣')
 
-            # 郝红丽
-            hhl = 0
-            hhl_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=50)
-            for m in hhl_score:
-                hhl += (m.score_result * m.to_score_option.score_min / 100)
-            if not len(hhl_score):
-                no_score_people_list.append('郝红丽')
-            # 隋晓海
-            sxh = 0
-            sxh_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=52)
-            for k in sxh_score:
-                sxh += (k.score_result * k.to_score_option.score_min / 100)
-            if not len(sxh_score):
-                no_score_people_list.append('隋晓海')
-            pz_result, kl_result, sx_result, hhl_result, sxh_result = 0, 0, 0, 0, 0
+                # 郝红丽
+                hhl = 0
+                hhl_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=50)
+                for m in hhl_score:
+                    hhl += (m.score_result * m.to_score_option.score_min / 100)
+                if not len(hhl_score):
+                    no_score_people_list.append('郝红丽')
+                # 隋晓海
+                sxh = 0
+                sxh_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=52)
+                for k in sxh_score:
+                    sxh += (k.score_result * k.to_score_option.score_min / 100)
+                if not len(sxh_score):
+                    no_score_people_list.append('隋晓海')
+                pz_result, kl_result, sx_result, hhl_result, sxh_result = 0, 0, 0, 0, 0
 
-            if len(pz_score):
-                pz_result = str(pz * 0.3)
-            if len(kl_score):
-                kl_result = str(kl * 0.2)
-            if len(sx_score):
-                sx_result = str(sx * 0.2)
-            if len(hhl_score):
-                hhl_result = str(hhl * 0.15)
-            if len(sxh_score):
-                sxh_result = str(sxh * 0.15)
-            all_score = float(pz_result) + float(kl_result) + float(sx_result) + float(hhl_result) + float(sxh_result)
-            data.append({
-                "被评分人": i.to_user_profile.name,
-                "王萍": round(float(pz_result), 2),
-                "康莉": round(float(kl_result), 2),
-                "隋欣": round(float(sx_result), 2),
-                "郝宏丽": round(float(hhl_result), 2),
-                "隋晓海": round(float(sxh_result), 2),
-                "总分": round(float(all_score), 2),
-                "未打分人员清单": no_score_people_list
-            })
-        return Response(data)
+                if len(pz_score):
+                    pz_result = str(pz * 0.3)
+                if len(kl_score):
+                    kl_result = str(kl * 0.2)
+                if len(sx_score):
+                    sx_result = str(sx * 0.2)
+                if len(hhl_score):
+                    hhl_result = str(hhl * 0.15)
+                if len(sxh_score):
+                    sxh_result = str(sxh * 0.15)
+                all_score = float(pz_result) + float(kl_result) + float(sx_result) + float(hhl_result) + float(sxh_result)
+                data.append({
+                    "被评分人": i.to_user_profile.name,
+                    "王萍": round(float(pz_result), 2),
+                    "康莉": round(float(kl_result), 2),
+                    "隋欣": round(float(sx_result), 2),
+                    "郝宏丽": round(float(hhl_result), 2),
+                    "隋晓海": round(float(sxh_result), 2),
+                    "总分": round(float(all_score), 2),
+                    "未打分人员清单": no_score_people_list
+                })
+            return Response(data)
+        else:
+            return Response('')
 
 
 class Project_2(viewsets.ViewSet):
     def list(self, request):
-        data = []
+        auth_key = self.request.query_params.get('auth_key', None)
+        if auth_key == '533c15a1-138e-49cf-8404-856d7c74ac34':
+            data = []
 
-        for i in ScoreUserProfile.objects.filter(to_score_project_id__exact=2):
-            # 王萍分值
-            no_score_people_list = []
-            pz = 0
-            pz_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=48)
-            for j in pz_score:
-                pz += (j.score_result * j.to_score_option.score_min /100)
-            if not len(pz_score):
-                no_score_people_list.append('王萍')
-            # 康莉
-            kl = 0
-            kl_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=49)
-            for k in kl_score:
-                kl += (k.score_result * k.to_score_option.score_min / 100)
-            if not len(kl_score):
-                no_score_people_list.append('康莉')
-            # 郝红丽
-            hhl = 0
-            hhl_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=50)
-            for m in hhl_score:
-                hhl += (m.score_result * m.to_score_option.score_min / 100)
-            if not len(hhl_score):
-                no_score_people_list.append('郝红丽')
-            # 总部出纳
-            zbcn = 0
-            zbcn_num = 0
-            for zbcn_people in ZBCN_LIST:
-                z = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user__name__exact=zbcn_people)
-                if z:
-                    zbcn_num += 1
-                else:
-                    no_score_people_list.append(zbcn_people)
-                for k in z:
-                    zbcn += (k.score_result * k.to_score_option.score_min / 100)
+            for i in ScoreUserProfile.objects.filter(to_score_project_id__exact=2):
+                # 王萍分值
+                no_score_people_list = []
+                pz = 0
+                pz_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=48)
+                for j in pz_score:
+                    pz += (j.score_result * j.to_score_option.score_min /100)
+                if not len(pz_score):
+                    no_score_people_list.append('王萍')
+                # 康莉
+                kl = 0
+                kl_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=49)
+                for k in kl_score:
+                    kl += (k.score_result * k.to_score_option.score_min / 100)
+                if not len(kl_score):
+                    no_score_people_list.append('康莉')
+                # 郝红丽
+                hhl = 0
+                hhl_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=50)
+                for m in hhl_score:
+                    hhl += (m.score_result * m.to_score_option.score_min / 100)
+                if not len(hhl_score):
+                    no_score_people_list.append('郝红丽')
+                # 总部出纳
+                zbcn = 0
+                zbcn_num = 0
+                for zbcn_people in ZBCN_LIST:
+                    z = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user__name__exact=zbcn_people)
+                    if z:
+                        zbcn_num += 1
+                    else:
+                        no_score_people_list.append(zbcn_people)
+                    for k in z:
+                        zbcn += (k.score_result * k.to_score_option.score_min / 100)
 
-            # 总部会计
-            zbkj = 0
-            zbkj_num = 0
-            for zbkj_people in (ZBKJ_LIST + ["李媛媛", "吕海英"]):
-                z = ScoreResult.objects.filter(to_score_user_profile__to_user_profile__name__exact=i.to_user_profile.name, create_user__name__exact=zbkj_people)
-                if z:
-                    zbkj_num += 1
-                else:
-                    no_score_people_list.append(zbkj_people)
-                for l in z:
-                    zbkj += (l.score_result * l.to_score_option.score_min / 100)
+                # 总部会计
+                zbkj = 0
+                zbkj_num = 0
+                for zbkj_people in (ZBKJ_LIST + ["李媛媛", "吕海英"]):
+                    z = ScoreResult.objects.filter(to_score_user_profile__to_user_profile__name__exact=i.to_user_profile.name, create_user__name__exact=zbkj_people)
+                    if z:
+                        zbkj_num += 1
+                    else:
+                        no_score_people_list.append(zbkj_people)
+                    for l in z:
+                        zbkj += (l.score_result * l.to_score_option.score_min / 100)
 
-            pz_result, kl_result, hhl_result, zbcn_result, zbkj_result = 0, 0, 0, 0, 0
+                pz_result, kl_result, hhl_result, zbcn_result, zbkj_result = 0, 0, 0, 0, 0
 
-            if len(pz_score):
-                pz_result = str(pz * 0.25)
-            if len(kl_score):
-                kl_result = str(kl * 0.2)
-            if len(hhl_score):
-                hhl_result = str(hhl * 0.2)
-            if zbcn_num:
-                zbcn_result = str(zbcn/zbcn_num * 0.2)
-            if zbkj_num:
-                zbkj_result = str(zbkj/zbkj_num * 0.15)
-            all_score = float(pz_result) + float(kl_result) + float(hhl_result) + float(zbcn_result) + float(zbkj_result)
-            data.append({
-                "被评分人": i.to_user_profile.name,
-                "王萍": round(float(pz_result), 2),
-                "康莉": round(float(kl_result), 2),
-                "郝宏丽": round(float(hhl_result), 2),
-                "总部出纳": round(float(zbcn_result), 2),
-                "总部会计": round(float(zbkj_result), 2),
-                "总分": round(float(all_score), 2),
-                "未打分人员清单": no_score_people_list
-            })
-        return Response(data)
+                if len(pz_score):
+                    pz_result = str(pz * 0.25)
+                if len(kl_score):
+                    kl_result = str(kl * 0.2)
+                if len(hhl_score):
+                    hhl_result = str(hhl * 0.2)
+                if zbcn_num:
+                    zbcn_result = str(zbcn/zbcn_num * 0.2)
+                if zbkj_num:
+                    zbkj_result = str(zbkj/zbkj_num * 0.15)
+                all_score = float(pz_result) + float(kl_result) + float(hhl_result) + float(zbcn_result) + float(zbkj_result)
+                data.append({
+                    "被评分人": i.to_user_profile.name,
+                    "王萍": round(float(pz_result), 2),
+                    "康莉": round(float(kl_result), 2),
+                    "郝宏丽": round(float(hhl_result), 2),
+                    "总部出纳": round(float(zbcn_result), 2),
+                    "总部会计": round(float(zbkj_result), 2),
+                    "总分": round(float(all_score), 2),
+                    "未打分人员清单": no_score_people_list
+                })
+            return Response(data)
+        return Response('')
 
 
 
 class Project_3(viewsets.ViewSet):
     def list(self, request):
+        auth_key = self.request.query_params.get('auth_key', None)
+        if auth_key == '012f349d-3d48-4e87-a76f-5fdab3769b50':
+            data = []
+            for i in ScoreUserProfile.objects.filter(to_score_project_id__exact=3):
+                # 王萍分值
+                no_score_people_list = []
 
-        data = []
-        for i in ScoreUserProfile.objects.filter(to_score_project_id__exact=3):
-            # 王萍分值
-            no_score_people_list = []
+                pz = 0
+                pz_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=48)
+                for j in pz_score:
+                    pz += (j.score_result * j.to_score_option.score_min / 100)
+                if not len(pz_score):
+                    no_score_people_list.append('王萍')
+                # 康莉
+                kl = 0
+                kl_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=49)
+                for k in kl_score:
+                    kl += (k.score_result * k.to_score_option.score_min / 100)
+                if not len(kl_score):
+                    no_score_people_list.append('康莉')
+                # 郝红丽
+                hhl = 0
+                hhl_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=50)
+                for m in hhl_score:
+                    hhl += (m.score_result * m.to_score_option.score_min / 100)
+                if not len(hhl_score):
+                    no_score_people_list.append('郝红丽')
+                # 分公司出纳
+                fgscn = 0
+                fgscn_num = 0
+                for fgscn_people in FGSCN_LIST:
+                    z = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user__name__exact=fgscn_people)
+                    if z:
+                        fgscn_num += 1
+                    else:
+                        no_score_people_list.append(fgscn_people)
+                    for k in z:
+                        fgscn += (k.score_result * k.to_score_option.score_min / 100)
 
-            pz = 0
-            pz_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=48)
-            for j in pz_score:
-                pz += (j.score_result * j.to_score_option.score_min / 100)
-            if not len(pz_score):
-                no_score_people_list.append('王萍')
-            # 康莉
-            kl = 0
-            kl_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=49)
-            for k in kl_score:
-                kl += (k.score_result * k.to_score_option.score_min / 100)
-            if not len(kl_score):
-                no_score_people_list.append('康莉')
-            # 郝红丽
-            hhl = 0
-            hhl_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=50)
-            for m in hhl_score:
-                hhl += (m.score_result * m.to_score_option.score_min / 100)
-            if not len(hhl_score):
-                no_score_people_list.append('郝红丽')
-            # 分公司出纳
-            fgscn = 0
-            fgscn_num = 0
-            for fgscn_people in FGSCN_LIST:
-                z = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user__name__exact=fgscn_people)
+                # 大区会计
+                dqhz = 0
+                dqhz_num = 0
+                z = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user__name__exact=caiwu_fz[i.to_user_profile.name]['dqhz'])
                 if z:
-                    fgscn_num += 1
+                    dqhz_num += 1
                 else:
-                    no_score_people_list.append(fgscn_people)
-                for k in z:
-                    fgscn += (k.score_result * k.to_score_option.score_min / 100)
-
-            # 大区会计
-            dqhz = 0
-            dqhz_num = 0
-            z = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user__name__exact=caiwu_fz[i.to_user_profile.name]['dqhz'])
-            if z:
-                dqhz_num += 1
-            else:
-                no_score_people_list.append(caiwu_fz[i.to_user_profile.name]['dqhz'])
-            for l in z:
-                dqhz += (l.score_result * l.to_score_option.score_min / 100)
+                    no_score_people_list.append(caiwu_fz[i.to_user_profile.name]['dqhz'])
+                for l in z:
+                    dqhz += (l.score_result * l.to_score_option.score_min / 100)
 
 
-            # 大区组长
-            dqzz = 0
-            dqzz_num = 0
+                # 大区组长
+                dqzz = 0
+                dqzz_num = 0
 
-            z = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user__name__exact=caiwu_fz[i.to_user_profile.name]['dqzz'])
-            if z:
-                dqzz_num += 1
-            else:
-                no_score_people_list.append(caiwu_fz[i.to_user_profile.name]['dqzz'])
-            for m in z:
-                dqzz += (m.score_result * m.to_score_option.score_min / 100)
+                z = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user__name__exact=caiwu_fz[i.to_user_profile.name]['dqzz'])
+                if z:
+                    dqzz_num += 1
+                else:
+                    no_score_people_list.append(caiwu_fz[i.to_user_profile.name]['dqzz'])
+                for m in z:
+                    dqzz += (m.score_result * m.to_score_option.score_min / 100)
 
-            pz_result, kl_result, hhl_result, fgscn_result, dqhz_result, dqzz_result = 0, 0, 0, 0, 0, 0
+                pz_result, kl_result, hhl_result, fgscn_result, dqhz_result, dqzz_result = 0, 0, 0, 0, 0, 0
 
-            if len(pz_score):
-                pz_result = str(pz * 0.25)
-            if len(kl_score):
-                kl_result = str(kl * 0.2)
-            if len(hhl_score):
-                hhl_result = str(hhl * 0.15)
-            if fgscn_num:
-                fgscn_result = str(fgscn/fgscn_num * 0.15)
-            if dqhz_num:
-                dqhz_result = str(dqhz/dqhz_num * 0.15)
-            if dqzz_num:
-                dqzz_result = str(dqzz/dqzz_num * 0.10)
+                if len(pz_score):
+                    pz_result = str(pz * 0.25)
+                if len(kl_score):
+                    kl_result = str(kl * 0.2)
+                if len(hhl_score):
+                    hhl_result = str(hhl * 0.15)
+                if fgscn_num:
+                    fgscn_result = str(fgscn/fgscn_num * 0.15)
+                if dqhz_num:
+                    dqhz_result = str(dqhz/dqhz_num * 0.15)
+                if dqzz_num:
+                    dqzz_result = str(dqzz/dqzz_num * 0.10)
 
-            all_score = float(pz_result) + float(kl_result) + float(hhl_result) + float(fgscn_result) + float(dqhz_result) + float(dqzz_result)
-            data.append({
-                "被评分人": i.to_user_profile.name,
-                "王萍": round(float(pz_result), 2),
-                "康莉": round(float(kl_result), 2),
-                "郝宏丽": round(float(hhl_result), 2),
-                "分公司出纳": round(float(fgscn_result), 2),
-                "大区会计": round(float(dqhz_result), 2),
-                "大区组长": round(float(dqzz_result), 2),
-                "总分": round(float(all_score), 2),
-                "未打分人员清单": no_score_people_list
-            })
-        return Response(data)
+                all_score = float(pz_result) + float(kl_result) + float(hhl_result) + float(fgscn_result) + float(dqhz_result) + float(dqzz_result)
+                data.append({
+                    "被评分人": i.to_user_profile.name,
+                    "王萍": round(float(pz_result), 2),
+                    "康莉": round(float(kl_result), 2),
+                    "郝宏丽": round(float(hhl_result), 2),
+                    "分公司出纳": round(float(fgscn_result), 2),
+                    "大区会计": round(float(dqhz_result), 2),
+                    "大区组长": round(float(dqzz_result), 2),
+                    "总分": round(float(all_score), 2),
+                    "未打分人员清单": no_score_people_list
+                })
+            return Response(data)
+        else:
+            return Response('')
 
 
 class Project_4(viewsets.ViewSet):
     def list(self, request):
-        data = []
+        auth_key = self.request.query_params.get('auth_key', None)
+        if auth_key == '8485698b-cffd-4bbd-9e90-6e2ae041884f':
+            data = []
 
-        for i in ScoreUserProfile.objects.filter(to_score_project_id__exact=4):
-            # 王萍分值
-            no_score_people_list = []
+            for i in ScoreUserProfile.objects.filter(to_score_project_id__exact=4):
+                # 王萍分值
+                no_score_people_list = []
 
-            pz = 0
-            pz_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=48)
-            for j in pz_score:
-                pz += (j.score_result * j.to_score_option.score_min / 100)
-            if not len(pz_score):
-                no_score_people_list.append('王萍')
-            # 隋欣
-            sx = 0
-            sx_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=51)
-            for l in sx_score:
-                sx += (l.score_result * l.to_score_option.score_min / 100)
-            if not len(sx_score):
-                no_score_people_list.append('隋欣')
-            # 隋晓海
-            sxh = 0
-            sxh_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=52)
-            for k in sxh_score:
-                sxh += (k.score_result * k.to_score_option.score_min / 100)
-            if not len(sxh_score):
-                no_score_people_list.append('隋晓海')
-            # 总部会计 + 大区会计
-            zbkjdqkj = 0
-            zbkjdqkj_num = 0
-            for zbkjdqkj_people in (ZBKJ_LIST + DQKJ_LIST):
-                z = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user__name__exact=zbkjdqkj_people)
-                if z:
-                    zbkjdqkj_num += 1
-                else:
-                    no_score_people_list.append(zbkjdqkj_people)
-                for k in z:
-                    zbkjdqkj += (k.score_result * k.to_score_option.score_min / 100)
+                pz = 0
+                pz_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=48)
+                for j in pz_score:
+                    pz += (j.score_result * j.to_score_option.score_min / 100)
+                if not len(pz_score):
+                    no_score_people_list.append('王萍')
+                # 隋欣
+                sx = 0
+                sx_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=51)
+                for l in sx_score:
+                    sx += (l.score_result * l.to_score_option.score_min / 100)
+                if not len(sx_score):
+                    no_score_people_list.append('隋欣')
+                # 隋晓海
+                sxh = 0
+                sxh_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=52)
+                for k in sxh_score:
+                    sxh += (k.score_result * k.to_score_option.score_min / 100)
+                if not len(sxh_score):
+                    no_score_people_list.append('隋晓海')
+                # 总部会计 + 大区会计
+                zbkjdqkj = 0
+                zbkjdqkj_num = 0
+                for zbkjdqkj_people in (ZBKJ_LIST + DQKJ_LIST):
+                    z = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user__name__exact=zbkjdqkj_people)
+                    if z:
+                        zbkjdqkj_num += 1
+                    else:
+                        no_score_people_list.append(zbkjdqkj_people)
+                    for k in z:
+                        zbkjdqkj += (k.score_result * k.to_score_option.score_min / 100)
 
-            # 总部出纳
-            zbcn = 0
-            zbcn_num = 0
-            for zbcn_people in (ZBCN_LIST + FXYW_LIST):
-                z = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user__name__exact=zbcn_people)
-                if z:
-                    zbcn_num += 1
-                else:
-                    no_score_people_list.append(zbcn_people)
-                for k in z:
-                    zbcn += (k.score_result * k.to_score_option.score_min / 100)
+                # 总部出纳
+                zbcn = 0
+                zbcn_num = 0
+                for zbcn_people in (ZBCN_LIST + FXYW_LIST):
+                    z = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user__name__exact=zbcn_people)
+                    if z:
+                        zbcn_num += 1
+                    else:
+                        no_score_people_list.append(zbcn_people)
+                    for k in z:
+                        zbcn += (k.score_result * k.to_score_option.score_min / 100)
 
-            pz_result, sx_result, sxh_result, zbkjdqkj_result, zbcn_result = 0, 0, 0, 0, 0
+                pz_result, sx_result, sxh_result, zbkjdqkj_result, zbcn_result = 0, 0, 0, 0, 0
 
-            if len(pz_score):
-                pz_result = str(pz * 0.25)
-            if len(sx_score):
-                sx_result = str(sx * 0.2)
-            if len(sxh_score):
-                sxh_result = str(sxh * 0.2)
-            if zbkjdqkj_num:
-                zbkjdqkj_result = str(zbkjdqkj/zbkjdqkj_num * 0.2)
-            if zbcn_num:
-                zbcn_result = str(zbcn/zbcn_num * 0.15)
-            all_score = float(pz_result) + float(sx_result) + float(sxh_result) + float(zbkjdqkj_result) + float(zbcn_result)
-            data.append({
-                "被评分人": i.to_user_profile.name,
-                "王萍": round(float(pz_result), 2),
-                "隋欣": round(float(sx_result), 2),
-                "隋晓海": round(float(sxh_result), 2),
-                "总部会计+大区会计": round(float(zbkjdqkj_result), 2),
-                "总部出纳+分销业务财务团队": round(float(zbcn_result), 2),
-                "总分": round(float(all_score), 2),
-                "未打分人员清单": no_score_people_list
-            })
-        return Response(data)
+                if len(pz_score):
+                    pz_result = str(pz * 0.25)
+                if len(sx_score):
+                    sx_result = str(sx * 0.2)
+                if len(sxh_score):
+                    sxh_result = str(sxh * 0.2)
+                if zbkjdqkj_num:
+                    zbkjdqkj_result = str(zbkjdqkj/zbkjdqkj_num * 0.2)
+                if zbcn_num:
+                    zbcn_result = str(zbcn/zbcn_num * 0.15)
+                all_score = float(pz_result) + float(sx_result) + float(sxh_result) + float(zbkjdqkj_result) + float(zbcn_result)
+                data.append({
+                    "被评分人": i.to_user_profile.name,
+                    "王萍": round(float(pz_result), 2),
+                    "隋欣": round(float(sx_result), 2),
+                    "隋晓海": round(float(sxh_result), 2),
+                    "总部会计+大区会计": round(float(zbkjdqkj_result), 2),
+                    "总部出纳+分销业务财务团队": round(float(zbcn_result), 2),
+                    "总分": round(float(all_score), 2),
+                    "未打分人员清单": no_score_people_list
+                })
+            return Response(data)
+        return Response('')
 
 
 class Project_5(viewsets.ViewSet):
     def list(self, request):
-        data = []
+        auth_key = self.request.query_params.get('auth_key', None)
+        if auth_key == '0cca824f-a48c-4f41-8fa5-76b503903d31':
+            data = []
 
-        for i in ScoreUserProfile.objects.filter(to_score_project_id__exact=5):
-            # 王萍分值
-            no_score_people_list = []
+            for i in ScoreUserProfile.objects.filter(to_score_project_id__exact=5):
+                # 王萍分值
+                no_score_people_list = []
 
-            pz = 0
-            pz_score = ScoreResult.objects.filter(to_score_user_profile__to_user_profile__name__exact=i.to_user_profile.name, create_user_id__exact=48)
-            for j in pz_score:
-                pz += (j.score_result * j.to_score_option.score_min / 100)
-            if not len(pz_score):
-                no_score_people_list.append('王萍')
-            # 隋晓海
-            sxh = 0
-            sxh_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=52)
-            for k in sxh_score:
-                sxh += (k.score_result * k.to_score_option.score_min / 100)
-            if not len(sxh_score):
-                no_score_people_list.append('隋晓海')
+                pz = 0
+                pz_score = ScoreResult.objects.filter(to_score_user_profile__to_user_profile__name__exact=i.to_user_profile.name, create_user_id__exact=48)
+                for j in pz_score:
+                    pz += (j.score_result * j.to_score_option.score_min / 100)
+                if not len(pz_score):
+                    no_score_people_list.append('王萍')
+                # 隋晓海
+                sxh = 0
+                sxh_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=52)
+                for k in sxh_score:
+                    sxh += (k.score_result * k.to_score_option.score_min / 100)
+                if not len(sxh_score):
+                    no_score_people_list.append('隋晓海')
 
-            # 总部会计
-            zbkj = 0
-            zbkj_num = 0
-            for zbkj_people in (ZBKJ_LIST + FXYW_LIST):
-                z = ScoreResult.objects.filter(to_score_user_profile__to_user_profile__name__exact=i.to_user_profile.name, create_user__name__exact=zbkj_people)
-                if z:
-                    zbkj_num += 1
-                else:
-                    print(i.to_user_profile.name, zbkj_people)
+                # 总部会计
+                zbkj = 0
+                zbkj_num = 0
+                for zbkj_people in (ZBKJ_LIST + FXYW_LIST):
+                    z = ScoreResult.objects.filter(to_score_user_profile__to_user_profile__name__exact=i.to_user_profile.name, create_user__name__exact=zbkj_people)
+                    if z:
+                        zbkj_num += 1
+                    else:
+                        print(i.to_user_profile.name, zbkj_people)
 
-                    no_score_people_list.append(zbkj_people)
-                for l in z:
-                    zbkj += (l.score_result * l.to_score_option.score_min / 100)
+                        no_score_people_list.append(zbkj_people)
+                    for l in z:
+                        zbkj += (l.score_result * l.to_score_option.score_min / 100)
 
-            pz_result, sxh_result, zbkj_result = 0, 0, 0
+                pz_result, sxh_result, zbkj_result = 0, 0, 0
 
-            if len(pz_score):
-                pz_result = str(pz * 0.4)
-            if len(sxh_score):
-                sxh_result = str(sxh * 0.3)
-            if zbkj_num:
-                zbkj_result = str(zbkj/zbkj_num * 0.3)
-            all_score = float(pz_result) + float(sxh_result) + float(zbkj_result)
-            data.append({
-                "被评分人": i.to_user_profile.name,
-                "王萍": round(float(pz_result), 2),
-                "隋晓海": round(float(sxh_result), 2),
-                "总部会计+分销业务财务团队": round(float(zbkj_result), 2),
-                "总分": round(float(all_score), 2),
-                "未打分人员清单": no_score_people_list
-            })
-        return Response(data)
+                if len(pz_score):
+                    pz_result = str(pz * 0.4)
+                if len(sxh_score):
+                    sxh_result = str(sxh * 0.3)
+                if zbkj_num:
+                    zbkj_result = str(zbkj/zbkj_num * 0.3)
+                all_score = float(pz_result) + float(sxh_result) + float(zbkj_result)
+                data.append({
+                    "被评分人": i.to_user_profile.name,
+                    "王萍": round(float(pz_result), 2),
+                    "隋晓海": round(float(sxh_result), 2),
+                    "总部会计+分销业务财务团队": round(float(zbkj_result), 2),
+                    "总分": round(float(all_score), 2),
+                    "未打分人员清单": no_score_people_list
+                })
+            return Response(data)
+        else:
+            return Response('')
+
 
 
 
 class Project_6(viewsets.ViewSet):
     def list(self, request):
-        data = []
+        auth_key = self.request.query_params.get('auth_key', None)
+        if auth_key == 'f6c0230b-51a0-490d-b5ce-db8ff622ebb9':
+            data = []
 
-        for i in ScoreUserProfile.objects.filter(to_score_project_id__exact=6):
-            # 王萍分值
-            no_score_people_list = []
-            pz = 0
-            pz_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=48)
-            for j in pz_score:
-                pz += (j.score_result * j.to_score_option.score_min / 100)
-            if not len(pz_score):
-                no_score_people_list.append('王萍')
-            # 隋欣
-            sx = 0
-            sx_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=51)
-            for l in sx_score:
-                sx += (l.score_result * l.to_score_option.score_min / 100)
-            if not len(sx_score):
-                no_score_people_list.append('隋欣')
-            # 隋晓海
-            sxh = 0
-            sxh_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=52)
-            for k in sxh_score:
-                sxh += (k.score_result * k.to_score_option.score_min / 100)
-            if not len(sxh_score):
-                no_score_people_list.append('隋晓海')
+            for i in ScoreUserProfile.objects.filter(to_score_project_id__exact=6):
+                # 王萍分值
+                no_score_people_list = []
+                pz = 0
+                pz_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=48)
+                for j in pz_score:
+                    pz += (j.score_result * j.to_score_option.score_min / 100)
+                if not len(pz_score):
+                    no_score_people_list.append('王萍')
+                # 隋欣
+                sx = 0
+                sx_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=51)
+                for l in sx_score:
+                    sx += (l.score_result * l.to_score_option.score_min / 100)
+                if not len(sx_score):
+                    no_score_people_list.append('隋欣')
+                # 隋晓海
+                sxh = 0
+                sxh_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=52)
+                for k in sxh_score:
+                    sxh += (k.score_result * k.to_score_option.score_min / 100)
+                if not len(sxh_score):
+                    no_score_people_list.append('隋晓海')
 
-            # 总部会计 + 大区会计
-            zbkjdqkj = 0
-            zbkjdqkj_num = 0
-            for zbkjdqkj_people in (ZBKJ_LIST + DQKJ_LIST):
-                z = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user__name__exact=zbkjdqkj_people)
-                if z:
-                    zbkjdqkj_num += 1
-                else:
-                    no_score_people_list.append(zbkjdqkj_people)
-                for k in z:
-                    zbkjdqkj += (k.score_result * k.to_score_option.score_min / 100)
+                # 总部会计 + 大区会计
+                zbkjdqkj = 0
+                zbkjdqkj_num = 0
+                for zbkjdqkj_people in (ZBKJ_LIST + DQKJ_LIST):
+                    z = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user__name__exact=zbkjdqkj_people)
+                    if z:
+                        zbkjdqkj_num += 1
+                    else:
+                        no_score_people_list.append(zbkjdqkj_people)
+                    for k in z:
+                        zbkjdqkj += (k.score_result * k.to_score_option.score_min / 100)
 
-            # 负责省份的分公司出纳
-            sffgscn = 0
-            sffgscn_num = 0
-            for sffgscn_people in dqkj_fz[i.to_user_profile.name]:
-                z = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user__name__exact=sffgscn_people)
-                if z:
-                    sffgscn_num += 1
-                else:
-                    no_score_people_list.append(sffgscn_people)
-                for m in z:
-                    sffgscn += (m.score_result * m.to_score_option.score_min / 100)
+                # 负责省份的分公司出纳
+                sffgscn = 0
+                sffgscn_num = 0
+                for sffgscn_people in dqkj_fz[i.to_user_profile.name]:
+                    z = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user__name__exact=sffgscn_people)
+                    if z:
+                        sffgscn_num += 1
+                    else:
+                        no_score_people_list.append(sffgscn_people)
+                    for m in z:
+                        sffgscn += (m.score_result * m.to_score_option.score_min / 100)
 
-            pz_result, sx_result, sxh_result, zbkjdqkj_result, sffgscn_result = 0, 0, 0, 0, 0
+                pz_result, sx_result, sxh_result, zbkjdqkj_result, sffgscn_result = 0, 0, 0, 0, 0
 
 
-            if len(pz_score):
-                pz_result = str(pz * 0.25)
-            if len(sxh_score):
-                sx_result = str(sxh * 0.2)
-            if len(sxh_score):
-                sxh_result = str(sxh * 0.2)
-            if zbkjdqkj_num:
-                zbkjdqkj_result = str(zbkjdqkj/zbkjdqkj_num * 0.2)
-            if sffgscn_num:
-                sffgscn_result = str(sffgscn/sffgscn_num * 0.15)
-            all_score = float(pz_result) + float(sx_result) + float(sxh_result) + float(zbkjdqkj_result) + float(sffgscn_result)
-            data.append({
-                "被评分人": i.to_user_profile.name,
-                "王萍": round(float(pz_result), 2),
-                "隋欣": round(float(sx_result), 2),
-                "隋晓海": round(float(sxh_result), 2),
-                "总部会计+大区会计": round(float(zbkjdqkj_result), 2),
-                "负责省份的分公司出纳": round(float(sffgscn_result), 2),
-                "总分": round(float(all_score), 2),
-                "未打分人员清单": no_score_people_list
-            })
-        return Response(data)
+                if len(pz_score):
+                    pz_result = str(pz * 0.25)
+                if len(sxh_score):
+                    sx_result = str(sxh * 0.2)
+                if len(sxh_score):
+                    sxh_result = str(sxh * 0.2)
+                if zbkjdqkj_num:
+                    zbkjdqkj_result = str(zbkjdqkj/zbkjdqkj_num * 0.2)
+                if sffgscn_num:
+                    sffgscn_result = str(sffgscn/sffgscn_num * 0.15)
+                all_score = float(pz_result) + float(sx_result) + float(sxh_result) + float(zbkjdqkj_result) + float(sffgscn_result)
+                data.append({
+                    "被评分人": i.to_user_profile.name,
+                    "王萍": round(float(pz_result), 2),
+                    "隋欣": round(float(sx_result), 2),
+                    "隋晓海": round(float(sxh_result), 2),
+                    "总部会计+大区会计": round(float(zbkjdqkj_result), 2),
+                    "负责省份的分公司出纳": round(float(sffgscn_result), 2),
+                    "总分": round(float(all_score), 2),
+                    "未打分人员清单": no_score_people_list
+                })
+            return Response(data)
+        return Response('')
