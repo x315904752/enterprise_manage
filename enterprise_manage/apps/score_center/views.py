@@ -17,7 +17,7 @@ FGSCN_LIST = [
     '陆雅玲', '陈雪梅', '杨韩', '隋秀月', '曾云'
 ]
 DQKJ_LIST = ['高咏梅', '李燕欢', '王春霞', '张运开', '李媛媛', '吕海英']
-FXYW_LIST = ['张彦', '路瑶', '许敏', '陈慧']
+FXYW_LIST = ['张彦', '陆瑶', '许敏', '陈慧']
 caiwu_fz = {}
 dqkj_fz = {}
 caiwu_fz_txt = '''宋皎-高咏梅-王卓
@@ -557,7 +557,7 @@ class Project_5(viewsets.ViewSet):
             no_score_people_list = []
 
             pz = 0
-            pz_score = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user_id__exact=48)
+            pz_score = ScoreResult.objects.filter(to_score_user_profile__to_user_profile__name__exact=i.to_user_profile.name, create_user_id__exact=48)
             for j in pz_score:
                 pz += (j.score_result * j.to_score_option.score_min / 100)
             if not len(pz_score):
@@ -574,10 +574,12 @@ class Project_5(viewsets.ViewSet):
             zbkj = 0
             zbkj_num = 0
             for zbkj_people in (ZBKJ_LIST + FXYW_LIST):
-                z = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user__name__exact=zbkj_people)
+                z = ScoreResult.objects.filter(to_score_user_profile__to_user_profile__name__exact=i.to_user_profile.name, create_user__name__exact=zbkj_people)
                 if z:
                     zbkj_num += 1
                 else:
+                    print(i.to_user_profile.name, zbkj_people)
+
                     no_score_people_list.append(zbkj_people)
                 for l in z:
                     zbkj += (l.score_result * l.to_score_option.score_min / 100)
@@ -646,7 +648,6 @@ class Project_6(viewsets.ViewSet):
             # 负责省份的分公司出纳
             sffgscn = 0
             sffgscn_num = 0
-
             for sffgscn_people in dqkj_fz[i.to_user_profile.name]:
                 z = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user__name__exact=sffgscn_people)
                 if z:
@@ -678,6 +679,6 @@ class Project_6(viewsets.ViewSet):
                 "总部会计+大区会计": round(float(zbkjdqkj_result), 2),
                 "负责省份的分公司出纳": round(float(sffgscn_result), 2),
                 "总分": round(float(all_score), 2),
-                "未打分人员清单": sffgscn_people
+                "未打分人员清单": no_score_people_list
             })
         return Response(data)
