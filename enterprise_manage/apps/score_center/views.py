@@ -341,7 +341,7 @@ class Project_2(viewsets.ViewSet):
             zbkj = 0
             zbkj_num = 0
             for zbkj_people in (ZBKJ_LIST + ["李媛媛", "吕海英"]):
-                z = ScoreResult.objects.filter(to_score_user_profile__exact=i, create_user__name__exact=zbkj_people)
+                z = ScoreResult.objects.filter(to_score_user_profile__to_user_profile__name__exact=i.to_user_profile.name, create_user__name__exact=zbkj_people)
                 if z:
                     zbkj_num += 1
                 else:
