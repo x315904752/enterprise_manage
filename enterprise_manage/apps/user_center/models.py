@@ -22,6 +22,7 @@ class UserProfile(models.Model):
     )
     is_delete = models.BooleanField(verbose_name='是否删除', default=False)
     is_first = models.BooleanField(verbose_name='是否第一次登陆', default=True)
+    remark = models.TextField(verbose_name='备注信息', default='')
 
     class Meta:
         verbose_name = "用户属性"
